@@ -22,7 +22,7 @@ struct btnode* newnode(char *value)
     return temp;
 }
 
-void printPreorder(struct btnode* node,int n)
+void printPreorder(struct btnode* node, int n)
 {
     if (node == NULL)
         return;
@@ -60,60 +60,58 @@ void findTweet(struct btnode* node,char *tw)
     struct btnode *temp2 = (struct btnode *)malloc(sizeof(struct btnode));
     temp=node;
     printSiblings(temp);
-    printf("\nEnter the choice: ");
+    printf("\nType your choice: ");
     scanf("%d",&ch);
     for(int i=1;i<ch;i++)
     {
         temp=temp->r;
     }
-    printf("\n1.Reply to chosen tweet\n2.Reply to subtweet\n");
-    scanf("%d",&ch2);
-    switch(ch2)
+    if(temp->l!=NULL)
     {
-        case 1:
-        if(temp->l==NULL)
-        temp->l=newnode(tw);
-        else
+        printf("\n1.Reply to chosen tweet\n2.Reply to subtweet\nChoose one of the above options: ");
+        scanf("%d",&ch2);
+        switch(ch2)
         {
+            case 1:
             temp2=temp->l;
             while(temp2->r!=NULL)
             temp2=temp2->r;
             temp2->r=newnode(tw);
+            return;
+            break;
+            case 2:
+            findTweet(temp->l,tw);
+            break;
+            default:
+            printf("\nInvalid choice try again.\n");
         }
-        return;
-        break;
-        case 2:
-        findTweet(temp->l,tw);
-        break;
-        default:
-        printf("\nInvalid choice try again.\n");
+    }
+    else
+    {
+        temp->l=newnode(tw);
     }
 }
 
 int main()
 {
-    printf("1.New Tweet\n2.Reply to a tweet\n3.Display\n4.Exit\n");
+    printf("---MENU---\n1.New Tweet\n2.Reply to a tweet\n3.Display\n4.Exit\n");
     int ch,ch2;
     char tw[MAX];
-    scanf("%d",&ch);
     while(1)
     {
-        printf("\nEnter a choice: ");
+        printf("\nEnter a choice from the menu: ");
         scanf("%d",&ch);
         switch(ch)
         {
             case 1:
             printf("\nEnter your tweet: ");
             scanf("%s",tw);
-            printf("%s",tw);
             if(root==NULL)
             {
-                // printf("\nReached if\n");
                 root=newnode(tw);
             }
             else
             {
-                // printf("\nReached else\n");
                 struct btnode *temp = (struct btnode *)malloc(sizeof(struct btnode));
                 temp=root;
                 while(temp->r!=NULL)
