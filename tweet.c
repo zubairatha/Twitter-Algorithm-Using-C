@@ -22,13 +22,16 @@ struct btnode* newnode(char *value)
     return temp;
 }
 
-void printPreorder(struct btnode* node)
+void printPreorder(struct btnode* node,int n)
 {
     if (node == NULL)
         return;
-    printf("-%s\n", node->value);
-    printPreorder(node->l);
-    printPreorder(node->r);
+    for(int i=0;i<n;i++)
+    printf("-");
+
+    printf("%s\n", node->value);
+    printPreorder(node->l, n+1);
+    printPreorder(node->r, n);
 }
 
 void printSiblings(struct btnode* node)
@@ -101,19 +104,16 @@ int main()
         {
             case 1:
             printf("\nEnter your tweet: ");
-            // scanf("%[^\n]", tw);
             scanf("%s",tw);
-            // memset(tw,0,MAX);
-            // fgets(tw, MAX, stdin);
             printf("%s",tw);
             if(root==NULL)
             {
-                printf("\nReached if\n");
+                // printf("\nReached if\n");
                 root=newnode(tw);
             }
             else
             {
-                printf("\nReached else\n");
+                // printf("\nReached else\n");
                 struct btnode *temp = (struct btnode *)malloc(sizeof(struct btnode));
                 temp=root;
                 while(temp->r!=NULL)
@@ -134,7 +134,7 @@ int main()
             }
             break;
             case 3:
-            printPreorder(root);
+            printPreorder(root, 0);
             break;
             case 4:
             exit(0);
